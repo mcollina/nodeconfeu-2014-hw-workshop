@@ -1,0 +1,125 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1')
+    title Nodeconf.eu HW workshop
+
+    link(rel='stylesheet', type='text/css', href='build/build.css')
+
+  body
+
+    article
+
+      section
+        h1 Nodeconf.eu HW workshop
+        h3
+          a(href="http://twitter.com/stresslimit") @stresslimit
+          | &nbsp;and&nbsp;
+          a(href="http://twitter.com/matteocollina") @matteocollina
+
+      section
+        img(src="/images/tessel.png", style="width: 100%")
+        ul.bullet
+          li Runs JS!
+          li kind-of node, most modules works!
+          li You can do an HTTP post/get!
+          li You can hook it to MQTT broker
+
+      section(data-camera="fullscreen")
+        p
+          | Camera not working
+
+      section(data-camera)
+        pre
+          code.language-javascript.
+            // Import the interface to Tessel hardware
+            var tessel = require('tessel');
+
+            var led1 = tessel.led[0].output(1);
+            var led2 = tessel.led[1].output(0);
+
+            setInterval(function () {
+                console.log("I'm blinking! (CTRL + C to stop)");
+                // Toggle the led states
+                led1.toggle();
+                led2.toggle();
+            }, 100);
+
+      section
+        img(src="/images/tessel.png", style="width: 100%")
+        ul.bullet
+          li npm install tessel -g
+          li tessel run file.js
+          li tessel push file.js
+          li tessel wifi -n NodeConfEU -p firepoint
+
+      section
+        h2 HTTP example
+        pre
+          code.language-javascript.
+            var http = require('http');
+
+            var statusCode = 200;
+            var count = 1;
+
+            setImmediate(function start () {
+              console.log('http request #' + (count++))
+              http.get("http://your-ip:port/", function (res) {
+                // do stuff with res!
+              })
+            })
+
+      section
+        h2 MQTT example
+
+        pre
+          code.language-javascript.
+            var mqtt = require('mqtt');
+            var client = mqtt.connect('mqtt://test.mosca.io');
+
+            client.on('connect', function() {
+              console.log('connected!');
+            });
+
+            client.publish('hello', 'world');
+
+      section
+        h2 MQTT example
+
+        pre
+          code.language-javascript.
+            var mqtt = require('mqtt');
+            var client = mqtt.connect('mqtt://test.mosca.io');
+
+            client.on('message', function(msg) {
+              console.log('msg')
+            });
+
+            client.subscribe('hello')
+
+      section
+        img(src="/images/tessel.png", style="width: 100%")
+        ul.bullet
+          li Accelerometer Module
+          li Ambient Modules
+          li Audio Module
+          li Bluetooth Low Energy Module
+          li Camera Module
+
+      section
+        img(src="/images/tessel.png", style="width: 100%")
+        ul.bullet
+          li Climate Module
+          li Infrared Module
+          li Relay Module
+          li RFID Module
+          li Servo Module
+
+      section
+        img(src="/images/tessel.png", style="width: 100%")
+        ul.bullet
+          li All the docs is at http://tessel.io
+        h2.bullet Thanks!
+
+    script(src='build/build.js')
